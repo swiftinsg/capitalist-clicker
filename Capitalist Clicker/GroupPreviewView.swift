@@ -15,7 +15,7 @@ struct GroupPreviewView: View {
         ZStack {
             if group.purchases.contains(.bryan) {
                 SpinningBryanView {
-                    group.totalSoon += 10
+                    group.totalSoon += 1
                 }
             }
             
