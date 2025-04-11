@@ -112,8 +112,8 @@ struct ContentView: View {
                                 .foregroundStyle(client.textColor)
                             
                             ScrollView(.horizontal) {
-                                ForEach(client.purchases) { purchase in
-                                    HStack {
+                                HStack {
+                                    ForEach(client.purchases) { purchase in
                                         VStack(alignment: .leading) {
                                             Image(purchase.imageName)
                                                 .resizable()
@@ -142,14 +142,10 @@ struct ContentView: View {
                                         .padding()
                                         .background(.thinMaterial)
                                         .clipShape(.rect(cornerRadius: 16))
+                                        .padding(.bottom)
                                     }
-                                    .frame(width: 300, height: 300, alignment: .leading)
-                                    .padding()
-                                    .background(.thinMaterial)
-                                    .clipShape(.rect(cornerRadius: 16))
-                                    .padding(.horizontal)
-                                    .padding(.bottom)
                                 }
+                                .padding(.horizontal)
                             }
                         }
                         .background(.ultraThinMaterial, ignoresSafeAreaEdges: .all)
