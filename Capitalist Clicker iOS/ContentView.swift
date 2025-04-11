@@ -90,7 +90,7 @@ struct ContentView: View {
                             Text("Tap Me!")
                                 .font(.system(size: 200))
                                 .fontWeight(.bold)
-                            Text("\(client.soonPerClick) $00N Per Click")
+                            Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
                                 .font(.title)
                                 .fontWeight(.bold)
                         }
