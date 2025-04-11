@@ -69,6 +69,10 @@ struct ContentView: View {
                             Button("Prefill Tristan IP address") {
                                 client.address = "172.20.10.3:8080"
                             }
+                            
+                            Button("Prefill Production IP address") {
+                                client.address = "192.168.1.110:8080"
+                            }
                         } header: {
                             Text("Developer Tools")
                         } footer: {

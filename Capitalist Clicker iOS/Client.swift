@@ -29,7 +29,7 @@ class Client {
     
     var showAllPurchasables = false
     
-    var address: String?
+    var address: String? = "192.168.1.110:8080"
     var group: Group = .dingoBingo
     
     var textColor: Color = .blue
