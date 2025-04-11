@@ -6,56 +6,58 @@
 //
 
 import SwiftUI
+import SpriteKit
 
 struct BouncingJiaChenView: View {
-    @State private var position = CGPoint(x: 100, y: 100)
-    @State private var direction = CGVector(dx: 2, dy: 2)
     
-    let onCollision: () -> Void
+    var onCollision: (() -> Void)
     
-    let size: CGFloat = 80
-    let timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    
-    var body: some View {
-        GeometryReader { geometry in
-            Image("jc")
-                .resizable()
-                .scaledToFit()
-                .frame(width: size, height: size)
-                .position(position)
-                .onReceive(timer) { _ in
-                    Task {
-                        var newPos = CGPoint(
-                            x: position.x + direction.dx,
-                            y: position.y + direction.dy
-                        )
-                        
-                        var newDirection = direction
-                        
-                        if newPos.x - size / 2 <= 0 || newPos.x + size / 2 >= geometry.size.width {
-                            newDirection.dx *= -1
-                            handleCollision()
-                        }
-                        
-                        if newPos.y - size / 2 <= 0 || newPos.y + size / 2 >= geometry.size.height {
-                            newDirection.dy *= -1
-                            handleCollision()
-                        }
-                        
-                        newPos = CGPoint(
-                            x: position.x + newDirection.dx,
-                            y: position.y + newDirection.dy
-                        )
-                        
-                        position = newPos
-                        direction = newDirection
-                    }
-                }
-        }
-        .drawingGroup()
+    var scene: SKScene {
+        let scene = BouncyJiaChenScene()
+        scene.size = CGSize(width: 1920 / 3, height: 1080 / 3)
+        scene.scaleMode = .resizeFill
+        scene.onCollision = onCollision
+        
+        return scene
     }
     
-    func handleCollision() {
-        onCollision()
+    var body: some View {
+        SpriteView(scene: scene, options: [.allowsTransparency])
+            .ignoresSafeArea()
+    }
+}
+
+class BouncyJiaChenScene: SKScene, SKPhysicsContactDelegate {
+    private var jcNode: SKSpriteNode!
+    private var velocity = CGVector(dx: 200, dy: 150) // points/sec
+    
+    var onCollision: (() -> Void)?
+    
+    override func didMove(to view: SKView) {
+        backgroundColor = .clear
+        
+        physicsWorld.gravity = .zero
+        physicsWorld.contactDelegate = self
+        
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+        
+        jcNode = SKSpriteNode(imageNamed: "jc")
+        
+        jcNode.size = CGSize(width: 66, height: 80)
+        jcNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        
+        jcNode.physicsBody = SKPhysicsBody(rectangleOf: jcNode.size)
+        jcNode.physicsBody?.affectedByGravity = false
+        jcNode.physicsBody?.allowsRotation = false
+        jcNode.physicsBody?.friction = 0
+        jcNode.physicsBody?.restitution = 1.0
+        jcNode.physicsBody?.linearDamping = 0
+        jcNode.physicsBody?.velocity = CGVector(dx: 200, dy: 100)
+        
+        addChild(jcNode)
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        onCollision?()
     }
 }

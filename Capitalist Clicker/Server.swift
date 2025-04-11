@@ -57,6 +57,11 @@ class Server: HTTPHandlerDelegate {
         guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else { return nil }
         
         groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
+        
+        let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
+        
+        groups[groupIndex].totalSoon -= totalCost
+        
         groups[groupIndex].purchases.append(contentsOf: request.purchases)
         
         let availablePurchases = Purchase.all.filter { purchase in
