@@ -32,7 +32,14 @@ extension Purchase {
         amount: 1,
         imageName: "hc"
     )
-
+    
+    static let james = Purchase(id: "james",
+        name: "James",
+        description: "James in a maid outfit. Sweeps up $00N",
+        amount: 42.5,
+        imageName: "jame"
+    )
+    
     static let bryan = Purchase(
         id: "bryan",
         name: "Bryan",
