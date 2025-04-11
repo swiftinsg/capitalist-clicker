@@ -42,6 +42,8 @@ class Client {
     var showRabbit1 = false
     var showRabbit2 = false
     
+    var isFireSale = true
+    
     var soonPerClick = 0.01
     
     func sendHeartbeat() async {

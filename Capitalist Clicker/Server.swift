@@ -60,6 +60,10 @@ class Server: HTTPHandlerDelegate {
         
         let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
         
+        let newFlags = request.purchases.flatMap { $0.addedFlags }
+        
+        groups[groupIndex].flags.append(contentsOf: newFlags)
+        
         groups[groupIndex].totalSoon -= totalCost
         
         groups[groupIndex].purchases.append(contentsOf: request.purchases)

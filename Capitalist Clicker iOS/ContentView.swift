@@ -86,21 +86,38 @@ struct ContentView: View {
             }
         } else {
             ZStack {
+                if client.isFireSale {
+                    FlameView()
+                }
+                
                 VStack(alignment: .leading) {
-                    Button {
-                        client.clicks += 1 * client.clicksMultiplier
-                    } label: {
-                        VStack {
-                            Text("Tap Me!")
-                                .font(.system(size: 200))
-                                .fontWeight(.bold)
-                            Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
-                                .font(.title)
-                                .fontWeight(.bold)
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ZStack {
+                        Button {
+                            client.clicks += 1 * client.clicksMultiplier
+                        } label: {
+                            VStack {
+                                HStack {
+                                    if client.isFireSale {
+                                        Image(.sean)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                    }
+                                    
+                                    Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
+                                        .font(.system(size: 200))
+                                        .fontWeight(.bold)
+                                }
+                                Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(.blue.opacity(0.0001))
                             .foregroundStyle(client.textColor)
+                        }
+                        
+                        #warning("put mining cheesetan here, aligned to bottom")
                     }
                     
                     if !client.purchases.isEmpty {
