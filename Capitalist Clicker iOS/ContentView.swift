@@ -65,6 +65,10 @@ struct ContentView: View {
                             Button("Prefill JC IP address") {
                                 client.address = "192.168.18.181:8080"
                             }
+
+                            Button("Prefill Tristan IP address") {
+                                client.address = "172.20.10.3:8080"
+                            }
                         } header: {
                             Text("Developer Tools")
                         } footer: {
@@ -139,6 +143,10 @@ struct ContentView: View {
                                         .background(.thinMaterial)
                                         .clipShape(.rect(cornerRadius: 16))
                                     }
+                                    .frame(width: 300, height: 300, alignment: .leading)
+                                    .padding()
+                                    .background(.thinMaterial)
+                                    .clipShape(.rect(cornerRadius: 16))
                                     .padding(.horizontal)
                                     .padding(.bottom)
                                 }
