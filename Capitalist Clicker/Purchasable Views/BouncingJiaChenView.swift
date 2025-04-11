@@ -40,6 +40,7 @@ class BouncyJiaChenScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+        self.physicsBody?.categoryBitMask = 0b1
         
         jcNode = SKSpriteNode(imageNamed: "jc")
         
@@ -53,6 +54,9 @@ class BouncyJiaChenScene: SKScene, SKPhysicsContactDelegate {
         jcNode.physicsBody?.restitution = 1.0
         jcNode.physicsBody?.linearDamping = 0
         jcNode.physicsBody?.velocity = CGVector(dx: 200, dy: 100)
+        
+        jcNode.physicsBody?.categoryBitMask = 0b10
+        jcNode.physicsBody?.contactTestBitMask = 0b1
         
         addChild(jcNode)
     }
