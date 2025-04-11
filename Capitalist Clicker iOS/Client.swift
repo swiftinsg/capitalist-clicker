@@ -118,7 +118,7 @@ class Client {
     func rollRabbitDice() {
         guard flags.contains(.rabbits) && !showRabbit1 && !showRabbit2 else { return }
         
-        if Int.random(in: 1...1000) <= 5 {
+        if Int.random(in: 1...100) <= 5 {
             withAnimation {
                 if .random() {
                     showRabbit1 = true
@@ -145,7 +145,7 @@ class Client {
     func start() {
         started = true
         
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             Task {
                 await self.sendHeartbeat()
             }

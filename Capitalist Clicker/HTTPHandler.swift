@@ -15,22 +15,22 @@ class HTTPHandler: ChannelInboundHandler {
     
     var delegate: HTTPHandlerDelegate?
     
-    private var bodyData = Data()
+    deinit {
+        print("HTTPHandler deinitialized")
+    }
     
     func channelRead(context: ChannelHandlerContext, data: NIOAny) {
         let reqPart = self.unwrapInboundIn(data)
         
         switch reqPart {
-        case .head(let request):
-            bodyData = Data()
-            
         case .body(let byteBuffer):
             var buffer = byteBuffer
+            var bodyData = Data()
+            
             if let bytes = buffer.readBytes(length: buffer.readableBytes) {
                 bodyData.append(contentsOf: bytes)
             }
             
-        case .end:
             let decoder = JSONDecoder()
             do {
                 let payload = try decoder.decode(SoonEntry.self, from: bodyData)
@@ -46,6 +46,7 @@ class HTTPHandler: ChannelInboundHandler {
                 print("Decoding error: \(error)")
                 respond(context: context, status: .badRequest, data: SoonError(error: "uhh probably the wrong json format", bigError: "\(error)").toData())
             }
+        default: break
         }
     }
     
@@ -63,6 +64,7 @@ class HTTPHandler: ChannelInboundHandler {
         context.write(self.wrapOutboundOut(.body(.byteBuffer(buffer))), promise: nil)
         
         context.writeAndFlush(self.wrapOutboundOut(.end(nil)), promise: nil)
+        context.close()
     }
 }
 
