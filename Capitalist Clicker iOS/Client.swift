@@ -58,6 +58,7 @@ class Client {
         }
 
         rollRabbitDice()
+        startSeanTimer()
         
         guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
             return
@@ -86,7 +87,15 @@ class Client {
             let decoder = JSONDecoder()
             
             if let response = try? decoder.decode(SoonResponse.self, from: responseData) {
-                availablePurchases = response.availablePurchases
+                availablePurchases = response.availablePurchases.map({ purchase in
+                    var purchase = purchase
+                    
+                    if isFireSale {
+                        purchase.amount *= 0.5
+                    }
+                    
+                    return purchase
+                })
                 textColor = GroupData.color(for: response.amount)[1]
                 backgroundColor = GroupData.color(for: response.amount)[0]
                 soonPerClick = response.soonPerClick
@@ -120,6 +129,19 @@ class Client {
                 } else {
                     showRabbit2 = true
                 }
+            }
+        }
+    }
+    
+    var isFireSaleTimerRunning = false
+    
+    func startSeanTimer() {
+        guard !isFireSaleTimerRunning, flags.contains(.fireSale) && !isFireSale else { return }
+        
+        Timer.scheduledTimer(withTimeInterval: 60 * 5, repeats: true) { _ in
+            self.isFireSale = true
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+                self.isFireSale = false
             }
         }
     }
