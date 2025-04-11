@@ -16,10 +16,36 @@ struct Purchase: Identifiable, Codable, Equatable {
     var amount: Double
 
     var imageName: String
-    
-    static let jc = Purchase(id: "jc", name: "Jia Chen", description: "Earn $00N for every bounce", amount: 200, imageName: "jc")
-    
+}
+
+extension Purchase {
+    static let hotchoco1 = Purchase(
+        id: "hotchoco1",
+        name: "Hot Chocolate",
+        description: "Double your $00N per click.",
+        amount: 1,
+        imageName: ""
+    )
+
+    static let jc = Purchase(
+        id: "jc",
+        name: "Jia Chen",
+        description: "Earn $00N for every bounce.",
+        amount: 200,
+        imageName: "jc"
+    )
+
+    static let bryan = Purchase(
+        id: "bryan",
+        name: "Bryan",
+        description: "Earn $00N for every rotation.",
+        amount: 200,
+        imageName: "bryegg"
+    )
+
     static let all: [Purchase] = [
-        jc
+        jc,
+        bryan,
+        hotchoco1
     ]
 }

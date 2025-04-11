@@ -18,7 +18,20 @@ struct GroupPreviewView: View {
                     group.totalSoon += 10
                 }
             }
-            
+
+            if group.purchases.contains(.bryan) {
+                SpinningBryanView {
+                    group.totalSoon += 10
+                }
+            }
+
+            if group.purchases.contains(.hotchoco1) {
+                Text("")
+                    .onAppear {
+                        group.soonPerClick *= 2
+                    }
+            }
+
             VStack(spacing: 0) {
                 HStack(alignment: .bottom) {
                     ViewThatFits {

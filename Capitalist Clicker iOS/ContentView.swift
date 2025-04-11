@@ -66,6 +66,10 @@ struct ContentView: View {
                             Button("Prefill JC IP address") {
                                 client.address = "192.168.18.181:8080"
                             }
+
+                            Button("Prefill Tristan IP address") {
+                                client.address = "172.20.10.3:8080"
+                            }
                         } header: {
                             Text("Developer Tools")
                         } footer: {
@@ -103,8 +107,8 @@ struct ContentView: View {
                             .foregroundStyle(client.textColor)
                         
                         ScrollView(.horizontal) {
-                            ForEach(client.purchases) { purchase in
-                                HStack {
+                            HStack {
+                                ForEach(client.purchases) { purchase in
                                     VStack(alignment: .leading) {
                                         Image(purchase.imageName)
                                             .resizable()
@@ -133,9 +137,9 @@ struct ContentView: View {
                                     .padding()
                                     .background(.thinMaterial)
                                     .clipShape(.rect(cornerRadius: 16))
+                                    .padding(.horizontal)
+                                    .padding(.bottom)
                                 }
-                                .padding(.horizontal)
-                                .padding(.bottom)
                             }
                         }
                     }
