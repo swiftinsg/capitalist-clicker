@@ -136,6 +136,7 @@ struct ContentView: View {
                 }
             }
             .background(client.backgroundColor, ignoresSafeAreaEdges: .all)
+            .environment(client)
         }
     }
 }

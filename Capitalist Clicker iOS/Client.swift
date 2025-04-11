@@ -42,7 +42,7 @@ class Client {
     var showRabbit1 = false
     var showRabbit2 = false
     
-    var isFireSale = true
+    var isFireSale = false
     
     var soonPerClick = 0.01
     
@@ -54,6 +54,7 @@ class Client {
         }
 
         rollRabbitDice()
+        startSeanTimer()
         
         guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
             return
@@ -124,6 +125,19 @@ class Client {
                 } else {
                     showRabbit2 = true
                 }
+            }
+        }
+    }
+    
+    var isFireSaleTimerRunning = false
+    
+    func startSeanTimer() {
+        guard !isFireSaleTimerRunning, flags.contains(.fireSale) && !isFireSale else { return }
+        
+        Timer.scheduledTimer(withTimeInterval: 60 * 5, repeats: true) { _ in
+            self.isFireSale = true
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+                self.isFireSale = false
             }
         }
     }

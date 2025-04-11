@@ -33,20 +33,29 @@ extension Purchase {
         imageName: "hc"
     )
 
-    static let jc = Purchase(
-        id: "jc",
-        name: "Jia Chen",
-        description: "Earn $00N for every bounce.",
-        amount: 200,
-        imageName: "jc"
-    )
-
     static let bryan = Purchase(
         id: "bryan",
         name: "Bryan",
         description: "Earn $00N for every rotation.",
         amount: 100,
         imageName: "bryegg"
+    )
+    
+    static let sean = Purchase(
+        id: "sean",
+        name: "Sean",
+        description: "🔥 FIRE SALES 🔥",
+        amount: 200,
+        imageName: "sean",
+        addedFlags: [.fireSale]
+    )
+    
+    static let jc = Purchase(
+        id: "jc",
+        name: "Jia Chen",
+        description: "Earn $00N for every bounce.",
+        amount: 300,
+        imageName: "jc"
     )
     
     static let rabbit = Purchase(
@@ -60,6 +69,7 @@ extension Purchase {
 
     static let all: [Purchase] = [
         hotchoco1,
+        sean,
         bryan,
         jc,
         rabbit
