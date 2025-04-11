@@ -159,13 +159,20 @@ class Client {
     func startPavithraaTimer() {
         guard !isFireClickTimerRunning, flags.contains(.fireClicks) && !isFireClick else { return }
 
+        fireClick()
+
         Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-            self.isFireClick = true
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
-                self.isFireClick = false
-            }
+            self.fireClick()
         }
     }
+
+    func fireClick() {
+        self.isFireClick = true
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+            self.isFireClick = false
+        }
+    }
+
 
     func start() {
         started = true

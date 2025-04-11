@@ -97,6 +97,12 @@ struct ContentView: View {
                         } label: {
                             ZStack {
                                 VStack {
+                                    if client.isFireClick {
+                                        Text("5x click multiplier!")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                    }
+                                    
                                     HStack {
                                         if client.isFireSale {
                                             Image(.sean)
