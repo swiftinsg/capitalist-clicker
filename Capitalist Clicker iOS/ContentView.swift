@@ -129,6 +129,10 @@ struct ContentView: View {
                     }
                 }
                 
+                if client.flags.contains(.fish) {
+                    FishesOverlayView(clicks: $client.clicks)
+                }
+                
                 if client.showRabbit1 {
                     RabbitView(rabbitNumber: 1, clicks: $client.clicks, showRabbit: $client.showRabbit1)
                         .transition(.move(edge: .leading))

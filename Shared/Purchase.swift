@@ -82,6 +82,15 @@ extension Purchase {
         imageName: "rabbit",
         addedFlags: [.rabbits]
     )
+    
+    static let tongyu = Purchase(
+        id: "tongyu",
+        name: "Tongyu",
+        description: "fish 🐟",
+        amount: 500,
+        imageName: "tongyu",
+        addedFlags: [.fish]
+    )
 
     static let all: [Purchase] = [
         hotchoco1,
@@ -89,6 +98,7 @@ extension Purchase {
         bryan,
         jc,
         rabbit,
-        tristan
+        tristan,
+        tongyu
     ]
 }
