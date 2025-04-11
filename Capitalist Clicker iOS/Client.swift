@@ -47,6 +47,7 @@ class Client {
     }
 
     var isFireSale = false
+    var isFireClick = false
 
     var soonPerClick = 0.01
     
@@ -59,7 +60,8 @@ class Client {
 
         rollRabbitDice()
         startSeanTimer()
-        
+        startPavithraaTimer()
+
         guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
             return
         }
@@ -151,7 +153,27 @@ class Client {
             self.isFireSale = false
         }
     }
-    
+
+    var isFireClickTimerRunning = false
+
+    func startPavithraaTimer() {
+        guard !isFireClickTimerRunning, flags.contains(.fireClicks) && !isFireClick else { return }
+
+        fireClick()
+
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            self.fireClick()
+        }
+    }
+
+    func fireClick() {
+        self.isFireClick = true
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+            self.isFireClick = false
+        }
+    }
+
+
     func start() {
         started = true
         

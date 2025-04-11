@@ -12,8 +12,6 @@ struct TristanMiningView: View {
     @State private var awakeSecondsLeft = 30
     @State private var count = 0
 
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
     var onMine: (() -> Void)?
 
     var body: some View {
@@ -40,17 +38,23 @@ struct TristanMiningView: View {
             }
             .frame(width: 150)
         }
-        .onReceive(timer) { _ in
+        .onAppear {
+            timer()
+        }
+        .onChange(of: count) {
+            if count % 4 == 3 {
+                onMine?()
+            }
+        }
+    }
+
+    func timer() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if awakeSecondsLeft > 0 {
                 withAnimation {
                     awakeSecondsLeft -= 1
                     count += 1
                 }
-            }
-        }
-        .onChange(of: count) {
-            if count % 4 == 3 {
-                onMine?()
             }
         }
     }

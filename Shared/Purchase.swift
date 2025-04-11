@@ -56,7 +56,16 @@ extension Purchase {
         imageName: "pickaxe",
         addedFlags: [.mining]
     )
-    
+
+    static let pavithraa = Purchase(
+        id: "pavithraa",
+        name: "Pavithraa",
+        description: "Your fingers are on fire. Each click counts as five.",
+        amount: 150,
+        imageName: "pavithraa",
+        addedFlags: [.fireClicks]
+    )
+
     static let sean = Purchase(
         id: "sean",
         name: "Sean",
@@ -94,11 +103,13 @@ extension Purchase {
 
     static let all: [Purchase] = [
         hotchoco1,
+        james,
         sean,
         bryan,
         jc,
         rabbit,
         tristan,
-        tongyu
+        tongyu,
+        pavithraa
     ]
 }

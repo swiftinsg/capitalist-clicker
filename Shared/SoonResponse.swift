@@ -32,4 +32,5 @@ enum Flag: Int, Codable {
     case fireSale
     case mining
     case fish
+    case fireClicks
 }
