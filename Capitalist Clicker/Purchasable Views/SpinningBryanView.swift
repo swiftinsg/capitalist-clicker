@@ -11,17 +11,20 @@ struct SpinningBryanView: View {
 
     @State private var rotation = 0.0
 
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
 
     var onRotation: (() -> Void)?
 
     var body: some View {
         Image("bryegg")
             .resizable()
-            .frame(width: 66)
+            .scaledToFit()
+            .frame(width: 100)
             .rotationEffect(.degrees(rotation))
             .onReceive(timer) { _ in
-                rotation += 1
+                withAnimation {
+                    rotation += 1
+                }
                 if Int(rotation) % 360 == 0 {
                     onRotation?()
                 }

@@ -13,14 +13,14 @@ struct GroupPreviewView: View {
     
     var body: some View {
         ZStack {
-            if group.purchases.contains(.jc) {
-                BouncingJiaChenView {
-                    group.totalSoon += 10
-                }
-            }
-
             if group.purchases.contains(.bryan) {
                 SpinningBryanView {
+                    group.totalSoon += 1
+                }
+            }
+            
+            if group.purchases.contains(.jc) {
+                BouncingJiaChenView {
                     group.totalSoon += 10
                 }
             }
