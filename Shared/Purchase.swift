@@ -94,6 +94,7 @@ extension Purchase {
 
     static let all: [Purchase] = [
         hotchoco1,
+        james,
         sean,
         bryan,
         jc,
