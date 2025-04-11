@@ -23,10 +23,12 @@ struct TristanMiningView: View {
             VStack {
                 Text(awakeSecondsLeft > 0 ? "\(awakeSecondsLeft)s" : "Tap to wake him up!")
                     .multilineTextAlignment(.center)
+                    .padding(10)
                     .background(.white)
-                    .padding(5)
-                    .foregroundStyle(.white)
-                
+                    .foregroundStyle(.black)
+                    .contentTransition(.numericText())
+                    .clipShape(.rect(cornerRadius: 4))
+
                 if awakeSecondsLeft > 0 {
                     Image("tristan\(count % 4)")
                         .resizable()
@@ -40,8 +42,10 @@ struct TristanMiningView: View {
         }
         .onReceive(timer) { _ in
             if awakeSecondsLeft > 0 {
-                awakeSecondsLeft -= 1
-                count += 1
+                withAnimation {
+                    awakeSecondsLeft -= 1
+                    count += 1
+                }
             }
         }
         .onChange(of: count) {

@@ -30,4 +30,5 @@ struct SoonResponse: Codable {
 enum Flag: Int, Codable {
     case rabbits
     case fireSale
+    case mining
 }
