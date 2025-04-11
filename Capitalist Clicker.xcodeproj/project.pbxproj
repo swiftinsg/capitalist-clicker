@@ -6,9 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		321467622DA9081A00A8208F /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = 321467612DA9081A00A8208F /* NIO */; };
+		321467642DA9081A00A8208F /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = 321467632DA9081A00A8208F /* NIOHTTP1 */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		321467512DA907D600A8208F /* Capitalist Clicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capitalist Clicker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		321467782DA9105D00A8208F /* Capitalist Clicker iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capitalist Clicker iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		321467882DA9106B00A8208F /* Exceptions for "Shared" folder in "Capitalist Clicker iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Group.swift,
+				Purchase.swift,
+				Shared.xcassets,
+				SoonEntry.swift,
+				SoonError.swift,
+				SoonResponse.swift,
+			);
+			target = 321467772DA9105D00A8208F /* Capitalist Clicker iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		321467532DA907D600A8208F /* Capitalist Clicker */ = {
@@ -16,10 +37,32 @@
 			path = "Capitalist Clicker";
 			sourceTree = "<group>";
 		};
+		321467672DA9089800A8208F /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				321467882DA9106B00A8208F /* Exceptions for "Shared" folder in "Capitalist Clicker iOS" target */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		321467792DA9105D00A8208F /* Capitalist Clicker iOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Capitalist Clicker iOS";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3214674E2DA907D600A8208F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				321467622DA9081A00A8208F /* NIO in Frameworks */,
+				321467642DA9081A00A8208F /* NIOHTTP1 in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		321467752DA9105D00A8208F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -32,7 +75,9 @@
 		321467482DA907D600A8208F = {
 			isa = PBXGroup;
 			children = (
+				321467672DA9089800A8208F /* Shared */,
 				321467532DA907D600A8208F /* Capitalist Clicker */,
+				321467792DA9105D00A8208F /* Capitalist Clicker iOS */,
 				321467522DA907D600A8208F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				321467512DA907D600A8208F /* Capitalist Clicker.app */,
+				321467782DA9105D00A8208F /* Capitalist Clicker iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,12 +108,37 @@
 			);
 			fileSystemSynchronizedGroups = (
 				321467532DA907D600A8208F /* Capitalist Clicker */,
+				321467672DA9089800A8208F /* Shared */,
 			);
 			name = "Capitalist Clicker";
 			packageProductDependencies = (
+				321467612DA9081A00A8208F /* NIO */,
+				321467632DA9081A00A8208F /* NIOHTTP1 */,
 			);
 			productName = "Capitalist Clicker";
 			productReference = 321467512DA907D600A8208F /* Capitalist Clicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		321467772DA9105D00A8208F /* Capitalist Clicker iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 321467802DA9105E00A8208F /* Build configuration list for PBXNativeTarget "Capitalist Clicker iOS" */;
+			buildPhases = (
+				321467742DA9105D00A8208F /* Sources */,
+				321467752DA9105D00A8208F /* Frameworks */,
+				321467762DA9105D00A8208F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				321467792DA9105D00A8208F /* Capitalist Clicker iOS */,
+			);
+			name = "Capitalist Clicker iOS";
+			packageProductDependencies = (
+			);
+			productName = "Capitalist Clicker iOS";
+			productReference = 321467782DA9105D00A8208F /* Capitalist Clicker iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -83,6 +154,9 @@
 					321467502DA907D600A8208F = {
 						CreatedOnToolsVersion = 16.3;
 					};
+					321467772DA9105D00A8208F = {
+						CreatedOnToolsVersion = 16.3;
+					};
 				};
 			};
 			buildConfigurationList = 3214674C2DA907D600A8208F /* Build configuration list for PBXProject "Capitalist Clicker" */;
@@ -94,12 +168,16 @@
 			);
 			mainGroup = 321467482DA907D600A8208F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 321467522DA907D600A8208F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				321467502DA907D600A8208F /* Capitalist Clicker */,
+				321467772DA9105D00A8208F /* Capitalist Clicker iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -112,10 +190,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		321467762DA9105D00A8208F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3214674D2DA907D600A8208F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		321467742DA9105D00A8208F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -299,6 +391,69 @@
 			};
 			name = Release;
 		};
+		321467812DA9105E00A8208F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XL5JK4F896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Capitalist-Clicker-iOS-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "sg.swiftin.Capitalist-Clicker-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		321467822DA9105E00A8208F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XL5JK4F896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Capitalist-Clicker-iOS-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "sg.swiftin.Capitalist-Clicker-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -320,7 +475,40 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		321467802DA9105E00A8208F /* Build configuration list for PBXNativeTarget "Capitalist Clicker iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				321467812DA9105E00A8208F /* Debug */,
+				321467822DA9105E00A8208F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-nio.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.81.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		321467612DA9081A00A8208F /* NIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */;
+			productName = NIO;
+		};
+		321467632DA9081A00A8208F /* NIOHTTP1 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */;
+			productName = NIOHTTP1;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 321467492DA907D600A8208F /* Project object */;
 }
