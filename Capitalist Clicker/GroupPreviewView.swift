@@ -13,6 +13,13 @@ struct GroupPreviewView: View {
     
     var body: some View {
         ZStack {
+            if group.purchases.contains(.james) {
+                WalkingMaidJamesView {
+                    group.totalSoon += 0.3
+                }
+                .frame(maxHeight: .infinity, alignment: .bottom)
+            }
+            
             if group.purchases.contains(.bryan) {
                 SpinningBryanView {
                     group.totalSoon += 0.5
