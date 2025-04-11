@@ -64,4 +64,5 @@ enum Group: String, Codable, CaseIterable, CustomStringConvertible {
 enum Session: String, CaseIterable {
     case morning
     case afternoon
+    case persistentStore
 }

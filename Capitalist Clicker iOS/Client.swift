@@ -62,7 +62,7 @@ class Client {
         startSeanTimer()
         startPavithraaTimer()
 
-        guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
+        guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -5 else {
             return
         }
         
@@ -140,17 +140,15 @@ class Client {
     func startSeanTimer() {
         guard !isFireSaleTimerRunning, flags.contains(.fireSale) && !isFireSale else { return }
         
-        fireSale()
+        isFireSaleTimerRunning = true
         
-        Timer.scheduledTimer(withTimeInterval: 60 * 5, repeats: true) { _ in
-            self.fireSale()
-        }
-    }
-    
-    func fireSale() {
-        self.isFireSale = true
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
-            self.isFireSale = false
+        Task {
+            while true {
+                self.isFireSale = true
+                try await Task.sleep(for: .seconds(5))
+                self.isFireSale = false
+                try await Task.sleep(for: .seconds(5 * 60))
+            }
         }
     }
 
@@ -158,26 +156,23 @@ class Client {
 
     func startPavithraaTimer() {
         guard !isFireClickTimerRunning, flags.contains(.fireClicks) && !isFireClick else { return }
-
-        fireClick()
-
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
-            self.fireClick()
+        
+        isFireClickTimerRunning = true
+        
+        Task {
+            while true {
+                self.isFireClick = true
+                try await Task.sleep(for: .seconds(5))
+                self.isFireClick = false
+                try await Task.sleep(for: .seconds(1 * 60))
+            }
         }
     }
-
-    func fireClick() {
-        self.isFireClick = true
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
-            self.isFireClick = false
-        }
-    }
-
 
     func start() {
         started = true
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { _ in
             Task {
                 await self.sendHeartbeat()
             }

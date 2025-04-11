@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @Environment(Server.self) private var server
-    @State private var session: Session = .morning
+    @State private var session: Session = .persistentStore
     
     @Environment(\.openWindow) private var openWindow
     
@@ -24,9 +24,13 @@ struct ContentView: View {
                 }
                 
                 Button("Start") {
-                    server.groups = Group.getGroups(for: session).map({ group in
-                        GroupData(group: group, totalSoon: 0, purchases: [], flags: [])
-                    })
+                    if session == .persistentStore {
+                        server.readFromFile()
+                    } else {
+                        server.groups = Group.getGroups(for: session).map({ group in
+                            GroupData(group: group, totalSoon: 0, purchases: [], flags: [])
+                        })
+                    }
                     server.start()
                 }
             }

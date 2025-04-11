@@ -86,7 +86,7 @@ struct ContentView: View {
             }
         } else {
             ZStack {
-                if client.isFireSale || client.isFireClick {
+                if client.isFireSale {
                     FlameView()
                 }
                 
@@ -98,7 +98,7 @@ struct ContentView: View {
                             ZStack {
                                 VStack {
                                     if client.isFireClick {
-                                        Text("5x click multiplier!")
+                                        Text("5x Click Multiplier!")
                                             .font(.title)
                                             .fontWeight(.bold)
                                     }

@@ -15,7 +15,7 @@ struct GroupPreviewView: View {
         ZStack {
             if group.purchases.contains(.james) {
                 WalkingMaidJamesView {
-                    group.totalSoon += 0.3
+                    group.totalSoon += 1
                 }
                 .frame(maxHeight: .infinity, alignment: .bottom)
             }
@@ -28,15 +28,8 @@ struct GroupPreviewView: View {
             
             if group.purchases.contains(.jc) {
                 BouncingJiaChenView {
-                    group.totalSoon += 10
+                    group.totalSoon += 30
                 }
-            }
-
-            if group.purchases.contains(.hotchoco1) {
-                Text("")
-                    .onAppear {
-                        group.soonPerClick *= 2
-                    }
             }
 
             VStack(spacing: 0) {

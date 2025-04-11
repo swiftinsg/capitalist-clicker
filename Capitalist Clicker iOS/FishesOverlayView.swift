@@ -17,7 +17,7 @@ struct FishesOverlayView: View {
         GeometryReader { geometry in
             ForEach(fishes) { fish in
                 FishView(fishes: $fishes, info: fish) {
-                    clicks += 100
+                    clicks += .random(in: 1000...5000)
                 }
                 .position(x: geometry.size.width / 2, y: fish.yPosition * geometry.size.height)
             }
@@ -31,7 +31,7 @@ struct FishesOverlayView: View {
     }
     
     func spawnFish() {
-        fishes.append(FishInfo(yPosition: .random(in: 0...1), startAtLeading: .random(), crossingTime: .random(in: 5...15), color: [.red, .green, .blue, .yellow].randomElement()!))
+        fishes.append(FishInfo(yPosition: .random(in: 0...1), startAtLeading: .random(), crossingTime: .random(in: 5...15), color: [.red, .green, .blue, .yellow, .teal, .black, .white, .purple, .pink, .brown, .cyan, .indigo, .mint].randomElement()!))
     }
 }
 

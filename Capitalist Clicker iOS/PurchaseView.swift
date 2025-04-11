@@ -29,16 +29,17 @@ struct PurchaseView: View {
                     .font(.title2)
                     .fontWeight(.bold)
             } else {
-                Text("\(String(format: "%.2f", purchase.amount)) $00N")
-                    .foregroundStyle(.secondary)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .strikethrough()
-                
-                Text("\(String(format: "%.2f", purchase.amount / 2)) $00N")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .strikethrough()
+                HStack {
+                    Text("\(String(format: "%.2f", purchase.amount)) $00N")
+                        .foregroundStyle(.secondary)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .strikethrough()
+                    
+                    Text("\(String(format: "%.2f", purchase.amount / 2)) $00N")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                }
             }
             
             Text(purchase.description)

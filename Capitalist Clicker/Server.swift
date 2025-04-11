@@ -42,9 +42,19 @@ class Server: HTTPHandlerDelegate {
         do {
             channel = try bootstrap.bind(host: "0.0.0.0", port: 8080).wait()
             print("yay server started at on port 8080")
+            writeToFileThread()
             isRunning = true
         } catch {
             print("omg ts (this server) pmo: \(error)")
+        }
+    }
+    
+    func writeToFileThread() {
+        Task.detached(priority: .background) {
+            while true {
+                self.writeToFile()
+                try? await Task.sleep(for: .seconds(1))
+            }
         }
     }
     
@@ -63,6 +73,12 @@ class Server: HTTPHandlerDelegate {
         groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
         
         let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
+        
+        let hcPurchased = request.purchases.filter {
+            $0.imageName == "hc"
+        }.count
+        
+        groups[groupIndex].soonPerClick *= pow(2, Double(hcPurchased))
         
         let newFlags = request.purchases.flatMap { $0.addedFlags }
         
@@ -83,5 +99,29 @@ class Server: HTTPHandlerDelegate {
                                     flags: groups[groupIndex].flags)
         
         return response
+    }
+    
+    func writeToFile() {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        
+        let url = URL.downloadsDirectory.appendingPathComponent("soon.json")
+        do {
+            let data = try encoder.encode(groups)
+            try data.write(to: url)
+        } catch {
+            print("Error writing to file: \(error)")
+        }
+    }
+    
+    func readFromFile() {
+        let url = URL.downloadsDirectory.appendingPathComponent("soon.json")
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            groups = try decoder.decode([GroupData].self, from: data)
+        } catch {
+            print("Error reading from file: \(error)")
+        }
     }
 }

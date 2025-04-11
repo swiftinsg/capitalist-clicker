@@ -9,14 +9,14 @@ import SwiftUI
 
 struct TristanMiningView: View {
 
-    @State private var awakeSecondsLeft = 30
+    @State private var awakeSecondsLeft = 15
     @State private var count = 0
 
     var onMine: (() -> Void)?
 
     var body: some View {
         Button {
-            awakeSecondsLeft = 30
+            awakeSecondsLeft = 15
         } label: {
             VStack {
                 Text(awakeSecondsLeft > 0 ? "\(awakeSecondsLeft)s" : "Tap to wake him up!")
@@ -32,8 +32,15 @@ struct TristanMiningView: View {
                         .resizable()
                         .scaledToFit()
                 } else {
-                    Text("😴")
-                        .font(.largeTitle)
+                    VStack(alignment: .trailing, spacing: -5) {
+                        Image(systemName: "zzz")
+                            .zIndex(10)
+                            .font(.largeTitle)
+                        Image(.pickaxe)
+                            .resizable()
+                            .scaledToFit()
+                            .clipShape(.circle)
+                    }
                 }
             }
             .frame(width: 150)
@@ -51,10 +58,8 @@ struct TristanMiningView: View {
     func timer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if awakeSecondsLeft > 0 {
-                withAnimation {
-                    awakeSecondsLeft -= 1
-                    count += 1
-                }
+                awakeSecondsLeft -= 1
+                count += 1
             }
         }
     }
