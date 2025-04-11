@@ -11,6 +11,9 @@ struct SoonResponse: Codable {
     let group: Group
     let amount: Double
     let availablePurchases: [Purchase]
+    let soonPerClick: Double
+    
+    let flags: [Flag]
     
     func toData() -> Data {
         let encoder = JSONEncoder()
@@ -22,4 +25,8 @@ struct SoonResponse: Codable {
             return Data()
         }
     }
+}
+
+enum Flag: Int, Codable {
+    case rabbits
 }

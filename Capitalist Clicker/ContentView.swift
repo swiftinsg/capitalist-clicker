@@ -25,7 +25,7 @@ struct ContentView: View {
                 
                 Button("Start") {
                     server.groups = Group.getGroups(for: session).map({ group in
-                        GroupData(group: group, totalSoon: 0, purchases: [])
+                        GroupData(group: group, totalSoon: 0, purchases: [], flags: [])
                     })
                     server.start()
                 }
