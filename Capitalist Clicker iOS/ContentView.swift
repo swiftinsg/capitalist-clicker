@@ -37,6 +37,43 @@ struct ContentView: View {
                         }
                     }
                     
+                    DisclosureGroup("Developer Tools") {
+                        Section {
+                            Toggle("Show All Purchasables", isOn: $client.showAllPurchasables)
+                            
+                            Picker("Initial Click Count", selection: $client.clicks) {
+                                let clickOptions = [0, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000, 10000000000]
+                                
+                                ForEach(clickOptions, id: \.self) { click in
+                                    Text("\(click) → \(Double(click) * 0.01, specifier: "%.2f") $00N")
+                                        .tag(click)
+                                }
+                            }
+                            
+                            Picker("Clicks Multiplier (1 click == ?? clicks)", selection: $client.clicksMultiplier) {
+                                let clickOptions = [1, 2, 5, 10, 20, 50, 100, 200, 500, 1000]
+                                
+                                ForEach(clickOptions, id: \.self) { click in
+                                    Text("\(click)x")
+                                        .tag(click)
+                                }
+                            }
+                            
+                            Button("Prefill Loopback IP address") {
+                                client.address = "172.0.0.1:8080"
+                            }
+                            
+                            Button("Prefill JC IP address") {
+                                client.address = "192.168.18.181:8080"
+                            }
+                        } header: {
+                            Text("Developer Tools")
+                        } footer: {
+                            Text("All should be disabled in production.")
+                        }
+                    }
+
+                    
                     Button("Start") {
                         client.start()
                     }
@@ -46,7 +83,7 @@ struct ContentView: View {
         } else {
             VStack(alignment: .leading) {
                 Button {
-                    client.clicks += 1
+                    client.clicks += 1 * client.clicksMultiplier
                 } label: {
                     Text("Tap Me!")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -56,52 +93,57 @@ struct ContentView: View {
                         .foregroundStyle(client.textColor)
                 }
                 
-                if !client.availablePurchases.isEmpty {
-                    Divider()
-                    
-                    Text("$00N Store")
-                        .padding(.horizontal)
-                        .font(.headline)
-                    ScrollView(.horizontal) {
-                        ForEach(client.availablePurchases) { purchase in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Image(purchase.imageName)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    
-                                    HStack {
-                                        Text(purchase.name)
-                                        
-                                        Spacer()
-                                        
-                                        Text("\(String(format: "%.2f", purchase.amount)) $00N")
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    
-                                    Text(purchase.description)
-                                    
-                                    Button("Buy", systemImage: "cart") {
-                                        withAnimation {
-                                            client.itemsPurchased.append(purchase)
-                                            client.availablePurchases.removeAll { $0.id == purchase.id }
-                                        }
-                                    }
-                                    .buttonStyle(.borderedProminent)
-                                }
-                                .frame(width: 300, height: 300, alignment: .leading)
-                                .padding()
-                                .background(.thickMaterial)
-                                .clipShape(.rect(cornerRadius: 16))
-                            }
-                            .padding(.horizontal)
+                if !client.purchases.isEmpty {
+                    VStack(alignment: .leading) {
+                        Text("$00N Store")
+                            .padding()
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(client.textColor)
                             .padding(.bottom)
+                        
+                        ScrollView(.horizontal) {
+                            ForEach(client.purchases) { purchase in
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Image(purchase.imageName)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        
+                                        VStack {
+                                            Text(purchase.name)
+                                                .font(.title)
+                                            Text("\(String(format: "%.2f", purchase.amount)) $00N")
+                                                .foregroundStyle(.secondary)
+                                                .font(.title2)
+                                        }
+                                        
+                                        .fontWeight(.bold)
+                                        
+                                        Text(purchase.description)
+                                        
+                                        Button("Buy", systemImage: "cart") {
+                                            withAnimation {
+                                                client.itemsPurchased.append(purchase)
+                                                client.availablePurchases.removeAll { $0.id == purchase.id }
+                                            }
+                                        }
+                                        .buttonStyle(.borderedProminent)
+                                    }
+                                    .frame(width: 300, height: 300, alignment: .leading)
+                                    .padding()
+                                    .background(.thinMaterial)
+                                    .clipShape(.rect(cornerRadius: 16))
+                                }
+                                .padding(.horizontal)
+                                .padding(.bottom)
+                            }
                         }
                     }
-
+                    .background(.ultraThinMaterial, ignoresSafeAreaEdges: .all)
+                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 21, bottomLeadingRadius: 0, bottomTrailingRadius: 0, topTrailingRadius: 21))
+                    .ignoresSafeArea(.container, edges: .bottom)
                 }
             }
             .background(client.backgroundColor, ignoresSafeAreaEdges: .all)

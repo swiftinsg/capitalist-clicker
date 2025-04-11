@@ -14,7 +14,19 @@ class Client {
     var clicks = 0
     var itemsPurchased: [Purchase] = []
     
+    var clicksMultiplier = 1
+    
+    var purchases: [Purchase] {
+        if showAllPurchasables {
+            return Purchase.all
+        } else {
+            return availablePurchases
+        }
+    }
+    
     var availablePurchases: [Purchase] = []
+    
+    var showAllPurchasables = false
     
     var address: String?
     var group: Group = .dingoBingo

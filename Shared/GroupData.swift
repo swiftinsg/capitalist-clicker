@@ -22,7 +22,7 @@ struct GroupData: Codable, Identifiable {
     
     static func color(for soon: Double) -> [Color] {
         if soon == 0 {
-            return [.gray, .black]
+            return [.black, .gray]
         } else if soon < 0.50 {
             return [.black, .white]
         } else if soon < 10 {
