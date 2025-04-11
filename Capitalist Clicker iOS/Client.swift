@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import SwiftUI
 
 @Observable
 class Client {
@@ -17,6 +18,9 @@ class Client {
     
     var address: String?
     var group: Group = .dingoBingo
+    
+    var textColor: Color = .blue
+    var backgroundColor: Color = .white
     
     var started = false
     
@@ -53,6 +57,8 @@ class Client {
             
             if let response = try? decoder.decode(SoonResponse.self, from: responseData) {
                 availablePurchases = response.availablePurchases
+                textColor = GroupData.color(for: response.amount)[1]
+                backgroundColor = GroupData.color(for: response.amount)[0]
             } else {
                 if let errorResponse = try? decoder.decode(SoonError.self, from: responseData) {
                     print("Error: \(errorResponse.error)")

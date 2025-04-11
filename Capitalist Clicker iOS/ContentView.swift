@@ -52,6 +52,8 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(.blue.opacity(0.0001))
                         .font(.system(size: 200))
+                        .fontWeight(.bold)
+                        .foregroundStyle(client.textColor)
                 }
                 
                 if !client.availablePurchases.isEmpty {
@@ -102,6 +104,7 @@ struct ContentView: View {
 
                 }
             }
+            .background(client.backgroundColor, ignoresSafeAreaEdges: .all)
         }
     }
 }

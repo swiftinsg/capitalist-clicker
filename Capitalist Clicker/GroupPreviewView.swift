@@ -43,6 +43,7 @@ struct GroupPreviewView: View {
                 .monospacedDigit()
                 .font(.largeTitle)
                 .fontWeight(.bold)
+                .foregroundStyle(GroupData.color(for: group.totalSoon)[1])
                 
                 Text(group.group.name)
                     .multilineTextAlignment(.center)
@@ -50,5 +51,6 @@ struct GroupPreviewView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(GroupData.color(for: group.totalSoon)[0])
     }
 }
