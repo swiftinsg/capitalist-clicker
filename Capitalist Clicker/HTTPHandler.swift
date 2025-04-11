@@ -22,7 +22,6 @@ class HTTPHandler: ChannelInboundHandler {
         
         switch reqPart {
         case .head(let request):
-            print("Received request to \(request.uri)")
             bodyData = Data()
             
         case .body(let byteBuffer):
@@ -35,11 +34,8 @@ class HTTPHandler: ChannelInboundHandler {
             let decoder = JSONDecoder()
             do {
                 let payload = try decoder.decode(SoonEntry.self, from: bodyData)
-                print("Group: \(payload.group), Clicks: \(payload.clicks)")
                 
                 if let response = delegate?.didReceiveRequest(payload) {
-                    print("Response: \(response)")
-                    
                     respond(context: context, data: response.toData())
                 } else {
                     let errorResponse = SoonError(error: "group not found", bigError: "no response from delegate?? this is wild")

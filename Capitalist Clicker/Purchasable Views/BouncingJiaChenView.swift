@@ -18,42 +18,39 @@ struct BouncingJiaChenView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                Color.black.ignoresSafeArea()
-                Image("jc")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: size, height: size)
-                    .position(position)
-            }
-            .onReceive(timer) { _ in
-                Task {
-                    var newPos = CGPoint(
-                        x: position.x + direction.dx,
-                        y: position.y + direction.dy
-                    )
-                    
-                    var newDirection = direction
-                    
-                    if newPos.x - size / 2 <= 0 || newPos.x + size / 2 >= geometry.size.width {
-                        newDirection.dx *= -1
-                        handleCollision()
+            Image("jc")
+                .resizable()
+                .scaledToFit()
+                .frame(width: size, height: size)
+                .position(position)
+                .onReceive(timer) { _ in
+                    Task {
+                        var newPos = CGPoint(
+                            x: position.x + direction.dx,
+                            y: position.y + direction.dy
+                        )
+                        
+                        var newDirection = direction
+                        
+                        if newPos.x - size / 2 <= 0 || newPos.x + size / 2 >= geometry.size.width {
+                            newDirection.dx *= -1
+                            handleCollision()
+                        }
+                        
+                        if newPos.y - size / 2 <= 0 || newPos.y + size / 2 >= geometry.size.height {
+                            newDirection.dy *= -1
+                            handleCollision()
+                        }
+                        
+                        newPos = CGPoint(
+                            x: position.x + newDirection.dx,
+                            y: position.y + newDirection.dy
+                        )
+                        
+                        position = newPos
+                        direction = newDirection
                     }
-                    
-                    if newPos.y - size / 2 <= 0 || newPos.y + size / 2 >= geometry.size.height {
-                        newDirection.dy *= -1
-                        handleCollision()
-                    }
-                    
-                    newPos = CGPoint(
-                        x: position.x + newDirection.dx,
-                        y: position.y + newDirection.dy
-                    )
-                    
-                    position = newPos
-                    direction = newDirection
                 }
-            }
         }
         .drawingGroup()
     }

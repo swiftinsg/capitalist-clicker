@@ -100,7 +100,6 @@ struct ContentView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(client.textColor)
-                            .padding(.bottom)
                         
                         ScrollView(.horizontal) {
                             ForEach(client.purchases) { purchase in
@@ -110,16 +109,14 @@ struct ContentView: View {
                                             .resizable()
                                             .scaledToFit()
                                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        Text(purchase.name)
+                                            .font(.title)
+                                            .fontWeight(.bold)
                                         
-                                        VStack {
-                                            Text(purchase.name)
-                                                .font(.title)
-                                            Text("\(String(format: "%.2f", purchase.amount)) $00N")
-                                                .foregroundStyle(.secondary)
-                                                .font(.title2)
-                                        }
-                                        
-                                        .fontWeight(.bold)
+                                        Text("\(String(format: "%.2f", purchase.amount)) $00N")
+                                            .foregroundStyle(.secondary)
+                                            .font(.title2)
+                                            .fontWeight(.bold)
                                         
                                         Text(purchase.description)
                                         

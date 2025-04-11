@@ -41,7 +41,7 @@ class Server: HTTPHandlerDelegate {
         
         do {
             channel = try bootstrap.bind(host: "0.0.0.0", port: 8080).wait()
-            print("yay server started at \(channel!.localAddress!)")
+            print("yay server started at on port 8080")
             isRunning = true
         } catch {
             print("omg ts (this server) pmo: \(error)")
@@ -59,10 +59,13 @@ class Server: HTTPHandlerDelegate {
         groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
         groups[groupIndex].purchases.append(contentsOf: request.purchases)
         
-        #warning("TODO: find available purchases")
+        let availablePurchases = Purchase.all.filter { purchase in
+            !groups[groupIndex].purchases.contains(purchase) && purchase.amount <= groups[groupIndex].totalSoon
+        }.prefix(5)
+        
         let response = SoonResponse(group: groups[groupIndex].group,
                                     amount: groups[groupIndex].totalSoon,
-                                    availablePurchases: [])
+                                    availablePurchases: Array(availablePurchases))
         
         return response
     }
