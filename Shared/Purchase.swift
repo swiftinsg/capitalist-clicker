@@ -18,6 +18,10 @@ struct Purchase: Identifiable, Codable, Equatable {
     var imageName: String
     
     var addedFlags: [Flag] = []
+    
+    static func == (lhs: Purchase, rhs: Purchase) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Purchase {

@@ -121,53 +121,7 @@ struct ContentView: View {
                     }
                     
                     if !client.purchases.isEmpty {
-                        VStack(alignment: .leading) {
-                            Text("$00N Store")
-                                .padding()
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundStyle(client.textColor)
-                            
-                            ScrollView(.horizontal) {
-                                HStack {
-                                    ForEach(client.purchases) { purchase in
-                                        VStack(alignment: .leading) {
-                                            Image(purchase.imageName)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                            Text(purchase.name)
-                                                .font(.title)
-                                                .fontWeight(.bold)
-                                            
-                                            Text("\(String(format: "%.2f", purchase.amount)) $00N")
-                                                .foregroundStyle(.secondary)
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                            
-                                            Text(purchase.description)
-                                            
-                                            Button("Buy", systemImage: "cart") {
-                                                withAnimation {
-                                                    client.itemsPurchased.append(purchase)
-                                                    client.availablePurchases.removeAll { $0.id == purchase.id }
-                                                }
-                                            }
-                                            .buttonStyle(.borderedProminent)
-                                        }
-                                        .frame(width: 300, height: 300, alignment: .leading)
-                                        .padding()
-                                        .background(.thinMaterial)
-                                        .clipShape(.rect(cornerRadius: 16))
-                                        .padding(.bottom)
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                        }
-                        .background(.ultraThinMaterial, ignoresSafeAreaEdges: .all)
-                        .clipShape(UnevenRoundedRectangle(topLeadingRadius: 21, bottomLeadingRadius: 0, bottomTrailingRadius: 0, topTrailingRadius: 21))
-                        .ignoresSafeArea(.container, edges: .bottom)
+                        SoonStoreView()
                     }
                 }
                 
