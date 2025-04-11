@@ -70,7 +70,9 @@ class Server: HTTPHandlerDelegate {
         
         let response = SoonResponse(group: groups[groupIndex].group,
                                     amount: groups[groupIndex].totalSoon,
-                                    availablePurchases: Array(availablePurchases))
+                                    availablePurchases: Array(availablePurchases),
+                                    soonPerClick: groups[groupIndex].soonPerClick,
+                                    flags: groups[groupIndex].flags)
         
         return response
     }

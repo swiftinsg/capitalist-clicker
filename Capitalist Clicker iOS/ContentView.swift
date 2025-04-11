@@ -12,7 +12,6 @@ struct ContentView: View {
     @State private var client = Client()
     
     var body: some View {
-        
         @Bindable var client = client
         
         if !client.started {
@@ -82,66 +81,83 @@ struct ContentView: View {
                 .navigationTitle("Set Up Capitalist Clicker")
             }
         } else {
-            VStack(alignment: .leading) {
-                Button {
-                    client.clicks += 1 * client.clicksMultiplier
-                } label: {
-                    Text("Tap Me!")
+            ZStack {
+                VStack(alignment: .leading) {
+                    Button {
+                        client.clicks += 1 * client.clicksMultiplier
+                    } label: {
+                        VStack {
+                            Text("Tap Me!")
+                                .font(.system(size: 200))
+                                .fontWeight(.bold)
+                            Text("\(client.soonPerClick) $00N Per Click")
+                                .font(.title)
+                                .fontWeight(.bold)
+                        }
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(.blue.opacity(0.0001))
-                        .font(.system(size: 200))
-                        .fontWeight(.bold)
-                        .foregroundStyle(client.textColor)
-                }
-                
-                if !client.purchases.isEmpty {
-                    VStack(alignment: .leading) {
-                        Text("$00N Store")
-                            .padding()
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .background(.blue.opacity(0.0001))
                             .foregroundStyle(client.textColor)
-                        
-                        ScrollView(.horizontal) {
-                            ForEach(client.purchases) { purchase in
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Image(purchase.imageName)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                        Text(purchase.name)
-                                            .font(.title)
-                                            .fontWeight(.bold)
-                                        
-                                        Text("\(String(format: "%.2f", purchase.amount)) $00N")
-                                            .foregroundStyle(.secondary)
-                                            .font(.title2)
-                                            .fontWeight(.bold)
-                                        
-                                        Text(purchase.description)
-                                        
-                                        Button("Buy", systemImage: "cart") {
-                                            withAnimation {
-                                                client.itemsPurchased.append(purchase)
-                                                client.availablePurchases.removeAll { $0.id == purchase.id }
+                    }
+                    
+                    if !client.purchases.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("$00N Store")
+                                .padding()
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundStyle(client.textColor)
+                            
+                            ScrollView(.horizontal) {
+                                ForEach(client.purchases) { purchase in
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Image(purchase.imageName)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                            Text(purchase.name)
+                                                .font(.title)
+                                                .fontWeight(.bold)
+                                            
+                                            Text("\(String(format: "%.2f", purchase.amount)) $00N")
+                                                .foregroundStyle(.secondary)
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                            
+                                            Text(purchase.description)
+                                            
+                                            Button("Buy", systemImage: "cart") {
+                                                withAnimation {
+                                                    client.itemsPurchased.append(purchase)
+                                                    client.availablePurchases.removeAll { $0.id == purchase.id }
+                                                }
                                             }
+                                            .buttonStyle(.borderedProminent)
                                         }
-                                        .buttonStyle(.borderedProminent)
+                                        .frame(width: 300, height: 300, alignment: .leading)
+                                        .padding()
+                                        .background(.thinMaterial)
+                                        .clipShape(.rect(cornerRadius: 16))
                                     }
-                                    .frame(width: 300, height: 300, alignment: .leading)
-                                    .padding()
-                                    .background(.thinMaterial)
-                                    .clipShape(.rect(cornerRadius: 16))
+                                    .padding(.horizontal)
+                                    .padding(.bottom)
                                 }
-                                .padding(.horizontal)
-                                .padding(.bottom)
                             }
                         }
+                        .background(.ultraThinMaterial, ignoresSafeAreaEdges: .all)
+                        .clipShape(UnevenRoundedRectangle(topLeadingRadius: 21, bottomLeadingRadius: 0, bottomTrailingRadius: 0, topTrailingRadius: 21))
+                        .ignoresSafeArea(.container, edges: .bottom)
                     }
-                    .background(.ultraThinMaterial, ignoresSafeAreaEdges: .all)
-                    .clipShape(UnevenRoundedRectangle(topLeadingRadius: 21, bottomLeadingRadius: 0, bottomTrailingRadius: 0, topTrailingRadius: 21))
-                    .ignoresSafeArea(.container, edges: .bottom)
+                }
+                
+                if client.showRabbit1 {
+                    RabbitView(rabbitNumber: 1, clicks: $client.clicks, showRabbit: $client.showRabbit1)
+                        .transition(.move(edge: .leading))
+                }
+                
+                if client.showRabbit2 {
+                    RabbitView(rabbitNumber: 2, clicks: $client.clicks, showRabbit: $client.showRabbit2)
+                        .transition(.move(edge: .trailing))
                 }
             }
             .background(client.backgroundColor, ignoresSafeAreaEdges: .all)

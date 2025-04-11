@@ -20,6 +20,8 @@ struct GroupData: Codable, Identifiable {
     
     var purchases: [Purchase]
     
+    var flags: [Flag]
+    
     static func color(for soon: Double) -> [Color] {
         if soon == 0 {
             #if os(iOS)

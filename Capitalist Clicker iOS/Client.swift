@@ -13,6 +13,7 @@ import SwiftUI
 class Client {
     var clicks = 0
     var itemsPurchased: [Purchase] = []
+    var flags: [Flag] = []
     
     var clicksMultiplier = 1
     
@@ -38,6 +39,11 @@ class Client {
     
     var lastHeartbeat = Date.distantPast
     
+    var showRabbit1 = false
+    var showRabbit2 = false
+    
+    var soonPerClick = 0.01
+    
     func sendHeartbeat() async {
         guard let address = address,
               let url = URL(string: "http://" + address) else {
@@ -45,6 +51,8 @@ class Client {
             return
         }
 
+        rollRabbitDice()
+        
         guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
             return
         }
@@ -75,6 +83,8 @@ class Client {
                 availablePurchases = response.availablePurchases
                 textColor = GroupData.color(for: response.amount)[1]
                 backgroundColor = GroupData.color(for: response.amount)[0]
+                soonPerClick = response.soonPerClick
+                flags = response.flags
             } else {
                 if let errorResponse = try? decoder.decode(SoonError.self, from: responseData) {
                     print("Error: \(errorResponse.error)")
@@ -91,6 +101,20 @@ class Client {
             print("Error encoding: \(error)")
             clicks += soonEarnedForRequest
             itemsPurchased = itemsPurchasedForRequest
+        }
+    }
+    
+    func rollRabbitDice() {
+        guard flags.contains(.rabbits) && !showRabbit1 && !showRabbit2 else { return }
+        
+        if Int.random(in: 1...1000) <= 5 {
+            withAnimation {
+                if .random() {
+                    showRabbit1 = true
+                } else {
+                    showRabbit2 = true
+                }
+            }
         }
     }
     
