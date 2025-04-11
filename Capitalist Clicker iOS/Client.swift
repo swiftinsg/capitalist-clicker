@@ -36,6 +36,8 @@ class Client {
     
     var started = false
     
+    var lastHeartbeat = Date.distantPast
+    
     func sendHeartbeat() async {
         guard let address = address,
               let url = URL(string: "http://" + address) else {
@@ -43,9 +45,11 @@ class Client {
             return
         }
 
-        guard clicks > 0 || !itemsPurchased.isEmpty else {
+        guard clicks > 0 || !itemsPurchased.isEmpty || lastHeartbeat.timeIntervalSinceNow < -3 else {
             return
         }
+        
+        lastHeartbeat = .now
         
         let soonEarnedForRequest = clicks
         let itemsPurchasedForRequest = itemsPurchased

@@ -77,6 +77,7 @@ struct ContentView: View {
                     Button("Start") {
                         client.start()
                     }
+                    .disabled(client.address == nil)
                 }
                 .navigationTitle("Set Up Capitalist Clicker")
             }
