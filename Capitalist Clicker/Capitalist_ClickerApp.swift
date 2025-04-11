@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct Capitalist_ClickerApp: App {
+    
+    @State private var server = Server()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(server)
+        }
+        
+        WindowGroup(id: "preview") {
+            PreviewView()
+                .environment(server)
         }
     }
 }

@@ -10,7 +10,7 @@ import Observation
 
 @Observable
 class Client {
-    var soonEarned: Double = 0
+    var clicks = 0
     var itemsPurchased: [Purchase] = []
     
     var availablePurchases: [Purchase] = []
@@ -27,10 +27,14 @@ class Client {
             return
         }
 
-        let soonEarnedForRequest = soonEarned
+        guard clicks > 0 || !itemsPurchased.isEmpty else {
+            return
+        }
+        
+        let soonEarnedForRequest = clicks
         let itemsPurchasedForRequest = itemsPurchased
         
-        soonEarned = 0
+        clicks = 0
         itemsPurchased = []
         
         var request = URLRequest(url: url)
@@ -39,7 +43,7 @@ class Client {
         
         let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(SoonEntry(group: group, amount: soonEarnedForRequest, purchases: itemsPurchasedForRequest))
+            let data = try encoder.encode(SoonEntry(group: group, clicks: soonEarnedForRequest, purchases: itemsPurchasedForRequest))
             
             request.httpBody = data
             
@@ -53,15 +57,17 @@ class Client {
                 if let errorResponse = try? decoder.decode(SoonError.self, from: responseData) {
                     print("Error: \(errorResponse.error)")
                     print("Big Error: \(errorResponse.bigError)")
+                    
+                    print(String(data: data, encoding: .utf8)!)
                 } else {
                     print("Unknown error")
                 }
-                soonEarned += soonEarnedForRequest
+                clicks += soonEarnedForRequest
                 itemsPurchased = itemsPurchasedForRequest
             }
         } catch {
             print("Error encoding: \(error)")
-            soonEarned += soonEarnedForRequest
+            clicks += soonEarnedForRequest
             itemsPurchased = itemsPurchasedForRequest
         }
     }

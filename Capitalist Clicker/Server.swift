@@ -13,10 +13,12 @@ import Observation
 @Observable
 class Server: HTTPHandlerDelegate {
     
-    var groups: [SoonEntry] = []
+    var groups: [GroupData] = []
     
     private var group: EventLoopGroup?
     private var channel: Channel?
+    
+    var isRunning = false
     
     let handler = HTTPHandler()
     
@@ -40,6 +42,7 @@ class Server: HTTPHandlerDelegate {
         do {
             channel = try bootstrap.bind(host: "0.0.0.0", port: 8080).wait()
             print("yay server started at \(channel!.localAddress!)")
+            isRunning = true
         } catch {
             print("omg ts (this server) pmo: \(error)")
         }
@@ -53,12 +56,12 @@ class Server: HTTPHandlerDelegate {
     func didReceiveRequest(_ request: SoonEntry) -> SoonResponse? {
         guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else { return nil }
         
-        groups[groupIndex].amount += request.amount
+        groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
         groups[groupIndex].purchases.append(contentsOf: request.purchases)
         
         #warning("TODO: find available purchases")
         let response = SoonResponse(group: groups[groupIndex].group,
-                                    amount: groups[groupIndex].amount,
+                                    amount: groups[groupIndex].totalSoon,
                                     availablePurchases: [])
         
         return response

@@ -24,6 +24,7 @@ enum Group: String, Codable, CaseIterable, CustomStringConvertible {
     case worcestershire = "6pm"
     case papayaLebar = "7pm"
     case 🥚 = "8pm"
+    case alumni = "alumni"
     
     var description: String {
         rawValue
@@ -47,6 +48,20 @@ enum Group: String, Codable, CaseIterable, CustomStringConvertible {
         case .worcestershire: "6pm: worcestershire"
         case .papayaLebar: "7pm: Papaya lebar"
         case .🥚: "8pm: 🥚"
+        case .alumni: "Alumni"
         }
     }
+    
+    static func getGroups(for session: Session) -> [Group] {
+        if session == .morning {
+            return Group.allCases.filter { $0.rawValue.hasSuffix("am") } + [.alumni]
+        } else {
+            return Group.allCases.filter { $0.rawValue.hasSuffix("pm") } + [.alumni]
+        }
+    }
+}
+
+enum Session: String, CaseIterable {
+    case morning
+    case afternoon
 }

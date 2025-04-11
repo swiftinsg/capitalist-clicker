@@ -8,7 +8,7 @@
 import Foundation
 
 struct SoonResponse: Codable {
-    let group: String
+    let group: Group
     let amount: Double
     let availablePurchases: [Purchase]
     

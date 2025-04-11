@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Purchase: Identifiable, Codable {
+struct Purchase: Identifiable, Codable, Equatable {
     var id: String {
         name
     }
@@ -18,4 +18,10 @@ struct Purchase: Identifiable, Codable {
     var amount: Double
 
     var imageName: String
+    
+    static let jc = Purchase(name: "Jia Chen", description: "Earn $00N for every bounce", amount: 200, imageName: "jc")
+    
+    static let all: [Purchase] = [
+        jc
+    ]
 }

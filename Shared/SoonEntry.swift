@@ -9,6 +9,6 @@ import Foundation
 
 struct SoonEntry: Codable {
     let group: Group
-    var amount: Double
+    var clicks: Int
     var purchases: [Purchase]
 }

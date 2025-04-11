@@ -46,7 +46,7 @@ struct ContentView: View {
         } else {
             VStack(alignment: .leading) {
                 Button {
-                    client.soonEarned += 0.01
+                    client.clicks += 1
                 } label: {
                     Text("Tap Me!")
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -85,7 +85,6 @@ struct ContentView: View {
                                     Button("Buy", systemImage: "cart") {
                                         withAnimation {
                                             client.itemsPurchased.append(purchase)
-                                            client.soonEarned -= purchase.amount
                                             client.availablePurchases.removeAll { $0.id == purchase.id }
                                         }
                                     }

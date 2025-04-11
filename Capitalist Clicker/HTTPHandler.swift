@@ -35,7 +35,7 @@ class HTTPHandler: ChannelInboundHandler {
             let decoder = JSONDecoder()
             do {
                 let payload = try decoder.decode(SoonEntry.self, from: bodyData)
-                print("Group: \(payload.group), Amount: \(payload.amount)")
+                print("Group: \(payload.group), Clicks: \(payload.clicks)")
                 
                 if let response = delegate?.didReceiveRequest(payload) {
                     print("Response: \(response)")
