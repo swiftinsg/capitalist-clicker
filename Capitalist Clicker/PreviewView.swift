@@ -11,6 +11,8 @@ struct PreviewView: View {
     
     @Environment(Server.self) private var server
     
+    @Environment(\.dismissWindow) var dismissWindow
+    
     var body: some View {
         @Bindable var server = server
         
@@ -41,6 +43,11 @@ struct PreviewView: View {
                 }
             }
             .frame(width: 1920, height: 1080)
+        } else {
+            Text("Session not set up")
+                .onAppear {
+                    dismissWindow()
+                }
         }
     }
 }

@@ -19,7 +19,7 @@ struct GroupPreviewView: View {
                 }
             }
             
-            VStack {
+            VStack(spacing: 0) {
                 HStack(alignment: .bottom) {
                     ViewThatFits {
                         Text("\(group.totalSoon, specifier: "%.2f")")
@@ -47,7 +47,8 @@ struct GroupPreviewView: View {
                 
                 Text(group.group.name)
                     .multilineTextAlignment(.center)
-                    .padding(.top, 1)
+                    .foregroundStyle(GroupData.color(for: group.totalSoon)[1])
+                    .padding(.top, 8)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
