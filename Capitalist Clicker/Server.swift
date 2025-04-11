@@ -48,6 +48,10 @@ class Server: HTTPHandlerDelegate {
         }
     }
     
+    deinit {
+        print("WHAT THE SIGMA")
+    }
+    
     func stop() {
         try? channel?.close().wait()
         try? group?.syncShutdownGracefully()
