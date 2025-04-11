@@ -102,22 +102,62 @@ struct ContentView: View {
                             ZStack {
                                 VStack {
                                     if client.isFireClick {
-                                        Text("5x Click Multiplier!")
-                                            .font(.title)
-                                            .fontWeight(.bold)
+                                        HStack {
+                                            PhaseAnimator([Angle.zero, Angle(degrees: 360)]) { angle in
+                                                Image(.pavithraa)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(height: 100)
+                                                    .rotationEffect(angle)
+                                            } animation: { _ in
+                                                    .linear(duration: 0.7).repeatForever(autoreverses: false)
+                                            }
+                                            
+                                            PhaseAnimator([Color.red, .green, .blue, .yellow, .teal, .black, .white, .purple, .pink, .brown, .cyan, .indigo, .mint]) { color in
+                                                Text("5x Click Multiplier!")
+                                                    .font(.title)
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(color)
+                                            } animation: { _ in
+                                                    .linear(duration: 0.4)
+                                            }
+                                            
+                                            PhaseAnimator([Angle(degrees: 360), Angle.zero]) { angle in
+                                                Image(.pavithraa)
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(height: 100)
+                                                    .rotationEffect(angle)
+                                            } animation: { _ in
+                                                    .linear(duration: 0.7).repeatForever(autoreverses: false)
+                                            }
+                                        }
                                     }
                                     
                                     HStack {
                                         if client.isFireSale {
-                                            Image(.sean)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(height: 200)
+                                            SpinningSeanView()
                                         }
 
-                                        Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
-                                            .font(.system(size: 200))
-                                            .fontWeight(.bold)
+                                        if client.isFireClick {
+                                            PhaseAnimator([0.0, 100, -100]) { offset in
+                                                PhaseAnimator([Color.red, .green, .blue, .yellow, .teal, .black, .white, .purple, .pink, .brown, .cyan, .indigo, .mint]) { color in
+                                                    Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
+                                                        .font(.system(size: 200))
+                                                        .fontWeight(.bold)
+                                                        .shadow(color: color, radius: 50)
+                                                } animation: { _ in
+                                                        .linear(duration: 0.4)
+                                                }
+                                                .offset(y: offset)
+                                            } animation: { _ in
+                                                    .linear(duration: 0.2)
+                                            }
+                                        } else {
+                                            Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
+                                                .font(.system(size: 200))
+                                                .fontWeight(.bold)
+                                        }
                                     }
                                     Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
                                         .font(.title)

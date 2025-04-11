@@ -64,7 +64,7 @@ class HTTPHandler: ChannelInboundHandler {
         context.write(self.wrapOutboundOut(.body(.byteBuffer(buffer))), promise: nil)
         
         context.writeAndFlush(self.wrapOutboundOut(.end(nil)), promise: nil)
-        context.close()
+        _ = context.close(mode: .all)
     }
 }
 
