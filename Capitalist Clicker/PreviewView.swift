@@ -12,32 +12,36 @@ struct PreviewView: View {
     @Environment(Server.self) private var server
     
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
+        @Bindable var server = server
+        
+        if server.groups.count == 9 {
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    GroupPreviewView(group: $server.groups[0])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[1])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[2])
+                }
                 Divider()
-                Spacer()
+                HStack(spacing: 0) {
+                    GroupPreviewView(group: $server.groups[3])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[4])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[5])
+                }
                 Divider()
-                Spacer()
+                HStack(spacing: 0) {
+                    GroupPreviewView(group: $server.groups[6])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[7])
+                    Divider()
+                    GroupPreviewView(group: $server.groups[8])
+                }
             }
-            Divider()
-            HStack {
-                Spacer()
-                Divider()
-                Spacer()
-                Divider()
-                Spacer()
-            }
-            Divider()
-            HStack {
-                Spacer()
-                Divider()
-                Spacer()
-                Divider()
-                Spacer()
-            }
+            .frame(width: 1920, height: 1080)
         }
-        .frame(width: 1920, height: 1080)
     }
 }
 
