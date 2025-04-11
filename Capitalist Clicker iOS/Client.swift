@@ -138,11 +138,17 @@ class Client {
     func startSeanTimer() {
         guard !isFireSaleTimerRunning, flags.contains(.fireSale) && !isFireSale else { return }
         
+        fireSale()
+        
         Timer.scheduledTimer(withTimeInterval: 60 * 5, repeats: true) { _ in
-            self.isFireSale = true
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
-                self.isFireSale = false
-            }
+            self.fireSale()
+        }
+    }
+    
+    func fireSale() {
+        self.isFireSale = true
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { _ in
+            self.isFireSale = false
         }
     }
     
