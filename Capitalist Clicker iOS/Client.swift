@@ -41,9 +41,13 @@ class Client {
     
     var showRabbit1 = false
     var showRabbit2 = false
-    
-    var isFireSale = true
-    
+
+    var hasBoughtMining: Bool {
+        return flags.contains(.mining)
+    }
+
+    var isFireSale = false
+
     var soonPerClick = 0.01
     
     func sendHeartbeat() async {

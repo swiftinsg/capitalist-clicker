@@ -91,7 +91,7 @@ struct ContentView: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    ZStack {
+                    ZStack(alignment: .bottomTrailing) {
                         Button {
                             client.clicks += 1 * client.clicksMultiplier
                         } label: {
@@ -117,7 +117,11 @@ struct ContentView: View {
                             .foregroundStyle(client.textColor)
                         }
                         
-                        #warning("put mining cheesetan here, aligned to bottom")
+                        if client.hasBoughtMining {
+                            TristanMiningView {
+                                client.clicks += 500
+                            }
+                        }
                     }
                     
                     if !client.purchases.isEmpty {

@@ -41,8 +41,17 @@ extension Purchase {
         id: "bryan",
         name: "Bryan",
         description: "Earn $00N for every rotation.",
-        amount: 100,
+        amount: 50,
         imageName: "bryegg"
+    )
+
+    static let tristan = Purchase(
+        id: "tristan",
+        name: "Tristan",
+        description: "First we mine, then we $00N.",
+        amount: 100,
+        imageName: "pickaxe",
+        addedFlags: [.mining]
     )
     
     static let rabbit = Purchase(
@@ -58,6 +67,7 @@ extension Purchase {
         hotchoco1,
         bryan,
         jc,
-        rabbit
+        rabbit,
+        tristan
     ]
 }
