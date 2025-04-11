@@ -86,31 +86,33 @@ struct ContentView: View {
             }
         } else {
             ZStack {
-                if client.isFireSale {
+                if client.isFireSale || client.isFireClick {
                     FlameView()
                 }
                 
                 VStack(alignment: .leading) {
                     ZStack(alignment: .bottomTrailing) {
                         Button {
-                            client.clicks += 1 * client.clicksMultiplier
+                            client.clicks += 1 * client.clicksMultiplier * (client.isFireClick ? 5 : 1)
                         } label: {
-                            VStack {
-                                HStack {
-                                    if client.isFireSale {
-                                        Image(.sean)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 200)
+                            ZStack {
+                                VStack {
+                                    HStack {
+                                        if client.isFireSale {
+                                            Image(.sean)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: 200)
+                                        }
+
+                                        Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
+                                            .font(.system(size: 200))
+                                            .fontWeight(.bold)
                                     }
-                                    
-                                    Text(client.isFireSale ? "Fire Sale" : "Tap Me!")
-                                        .font(.system(size: 200))
+                                    Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
+                                        .font(.title)
                                         .fontWeight(.bold)
                                 }
-                                Text("\(client.soonPerClick, specifier: "%.2f") $00N Per Click")
-                                    .font(.title)
-                                    .fontWeight(.bold)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(.blue.opacity(0.0001))

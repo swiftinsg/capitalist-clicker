@@ -31,4 +31,5 @@ enum Flag: Int, Codable {
     case rabbits
     case fireSale
     case mining
+    case fireClicks
 }
