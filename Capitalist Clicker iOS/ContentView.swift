@@ -190,18 +190,21 @@ struct ContentView: View {
                         client.clicks += 100
                     }
                     .frame(maxHeight: .infinity, alignment: .bottom)
+                    .allowsHitTesting(false)
                 }
                 
                 if client.flags.contains(.bryan) {
                     SpinningBryanView {
                         client.clicks += 50
                     }
+                    .allowsHitTesting(false)
                 }
                 
                 if client.flags.contains(.jc) {
                     BouncingJiaChenView {
                         client.clicks += 3000
                     }
+                    .allowsHitTesting(false)
                 }
                 
                 if client.showRabbit1 {
