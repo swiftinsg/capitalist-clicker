@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Vapor
 
-enum Group: String, Codable, CaseIterable, CustomStringConvertible {
+enum Group: String, Codable, CaseIterable, CustomStringConvertible, Content {
     case dingoBingo = "1am"
     case fellaHavingHotChocolateUnderAnUmbrellaAt2am = "2am"
     case iPhone16SuperRetinaXDRDisplay61InchDiagonalAllScreenOLEDDisplay2556x1179PixelResolutionAt460ppi = "3am"

@@ -12,8 +12,9 @@ import Observation
 import Vapor
 
 @Observable
-class Server: HTTPHandlerDelegate {
+class Server {
     
+    @MainActor
     var groups: [GroupData] = []
     
     private var group: EventLoopGroup?
@@ -30,44 +31,49 @@ class Server: HTTPHandlerDelegate {
     func start() {
         Task {
             let app = try await Application.make(.detect())
-            app.on(.GET, "hello") { req in
-                return "Hello, world!"
-            }
-            app.on(.POST) { [self] req in
-                let request = try req.content.decode(SoonEntry.self)
+            app.http.server.configuration.hostname = "0.0.0.0"
+            app.http.server.configuration.port = 8080
+            
+            app.on(.POST) { req in
+                let request = try req.content.decode(SoonEntry.self, using: JSONDecoder())
                 
-                guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else {
-//                    return SoonError(error: "group not found", bigError: "big").toData()
+                guard let groupIndex = await self.groups.firstIndex(where: { $0.group == request.group }) else {
+                    //                    return SoonError(error: "group not found", bigError: "big").toData()
                     throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "group not found"))
                 }
                 
-                groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
-                
-                let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
+                var group = await self.groups[groupIndex]
                 
                 let hcPurchased = request.purchases.filter {
                     $0.imageName == "hc"
                 }.count
                 
-                groups[groupIndex].soonPerClick *= pow(2, Double(hcPurchased))
+                group.soonPerClick *= pow(2, Double(hcPurchased))
+                group.totalSoon += Double(request.clicks) * group.soonPerClick
+                
+                let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
                 
                 let newFlags = request.purchases.flatMap { $0.addedFlags }
                 
-                groups[groupIndex].flags.append(contentsOf: newFlags)
+                group.flags.append(contentsOf: newFlags)
                 
-                groups[groupIndex].totalSoon -= totalCost
+                group.totalSoon -= totalCost
                 
-                groups[groupIndex].purchases.append(contentsOf: request.purchases)
+                group.purchases.append(contentsOf: request.purchases)
                 
                 let availablePurchases = Purchase.all.filter { purchase in
-                    !groups[groupIndex].purchases.contains(purchase) && purchase.amount <= groups[groupIndex].totalSoon
+                    !group.purchases.contains(purchase) && purchase.amount <= group.totalSoon
                 }.prefix(5)
                 
-                let response = SoonResponse(group: groups[groupIndex].group,
-                                            amount: groups[groupIndex].totalSoon,
+                await MainActor.run {
+                    self.groups[groupIndex] = group
+                }
+                
+                let response = SoonResponse(group: group.group,
+                                            amount: group.totalSoon,
                                             availablePurchases: Array(availablePurchases),
-                                            soonPerClick: groups[groupIndex].soonPerClick,
-                                            flags: groups[groupIndex].flags)
+                                            soonPerClick: group.soonPerClick,
+                                            flags: group.flags)
                 
                 return response
             }
@@ -102,7 +108,7 @@ class Server: HTTPHandlerDelegate {
     func writeToFileThread() {
         Task.detached(priority: .background) {
             while true {
-                self.writeToFile()
+                await self.writeToFile()
                 try? await Task.sleep(for: .seconds(1))
             }
         }
@@ -117,41 +123,41 @@ class Server: HTTPHandlerDelegate {
         try? group?.syncShutdownGracefully()
     }
     
-    func didReceiveRequest(_ request: SoonEntry) -> SoonResponse? {
-        guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else { return nil }
-        
-        groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
-        
-        let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
-        
-        let hcPurchased = request.purchases.filter {
-            $0.imageName == "hc"
-        }.count
-        
-        groups[groupIndex].soonPerClick *= pow(2, Double(hcPurchased))
-        
-        let newFlags = request.purchases.flatMap { $0.addedFlags }
-        
-        groups[groupIndex].flags.append(contentsOf: newFlags)
-        
-        groups[groupIndex].totalSoon -= totalCost
-        
-        groups[groupIndex].purchases.append(contentsOf: request.purchases)
-        
-        let availablePurchases = Purchase.all.filter { purchase in
-            !groups[groupIndex].purchases.contains(purchase) && purchase.amount <= groups[groupIndex].totalSoon
-        }.prefix(5)
-        
-        let response = SoonResponse(group: groups[groupIndex].group,
-                                    amount: groups[groupIndex].totalSoon,
-                                    availablePurchases: Array(availablePurchases),
-                                    soonPerClick: groups[groupIndex].soonPerClick,
-                                    flags: groups[groupIndex].flags)
-        
-        return response
-    }
+//    func didReceiveRequest(_ request: SoonEntry) -> SoonResponse? {
+//        guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else { return nil }
+//        
+//        groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
+//        
+//        let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
+//        
+//        let hcPurchased = request.purchases.filter {
+//            $0.imageName == "hc"
+//        }.count
+//        
+//        groups[groupIndex].soonPerClick *= pow(2, Double(hcPurchased))
+//        
+//        let newFlags = request.purchases.flatMap { $0.addedFlags }
+//        
+//        groups[groupIndex].flags.append(contentsOf: newFlags)
+//        
+//        groups[groupIndex].totalSoon -= totalCost
+//        
+//        groups[groupIndex].purchases.append(contentsOf: request.purchases)
+//        
+//        let availablePurchases = Purchase.all.filter { purchase in
+//            !groups[groupIndex].purchases.contains(purchase) && purchase.amount <= groups[groupIndex].totalSoon
+//        }.prefix(5)
+//        
+//        let response = SoonResponse(group: groups[groupIndex].group,
+//                                    amount: groups[groupIndex].totalSoon,
+//                                    availablePurchases: Array(availablePurchases),
+//                                    soonPerClick: groups[groupIndex].soonPerClick,
+//                                    flags: groups[groupIndex].flags)
+//        
+//        return response
+//    }
     
-    func writeToFile() {
+    @MainActor func writeToFile() {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         
@@ -164,7 +170,7 @@ class Server: HTTPHandlerDelegate {
         }
     }
     
-    func readFromFile() {
+    @MainActor func readFromFile() {
         let url = URL.downloadsDirectory.appendingPathComponent("soon.json")
         do {
             let data = try Data(contentsOf: url)

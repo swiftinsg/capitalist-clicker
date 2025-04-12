@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Vapor
 
-struct Purchase: Identifiable, Codable, Equatable {
+struct Purchase: Identifiable, Codable, Equatable, Content {
     var id: String
     
     var name: String

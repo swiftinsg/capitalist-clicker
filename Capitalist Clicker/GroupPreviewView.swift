@@ -18,19 +18,25 @@ struct GroupPreviewView: View {
                     ViewThatFits {
                         Text("\(group.totalSoon, specifier: "%.2f")")
                             .font(.system(size: 100))
+                            .contentTransition(.numericText(value: group.totalSoon))
                         
                         Text("\(group.totalSoon, specifier: "%.2f")")
                             .font(.system(size: 80))
+                            .contentTransition(.numericText(value: group.totalSoon))
                         
                         Text("\(group.totalSoon, specifier: "%.2f")")
                             .font(.system(size: 60))
+                            .contentTransition(.numericText(value: group.totalSoon))
                         
                         Text("\(group.totalSoon, specifier: "%.2f")")
                             .font(.system(size: 40))
+                            .contentTransition(.numericText(value: group.totalSoon))
                         
                         Text("\(group.totalSoon, specifier: "%.2f")")
                             .font(.system(size: 20))
+                            .contentTransition(.numericText(value: group.totalSoon))
                     }
+                    .animation(.default, value: group.totalSoon)
                     
                     Text("$00N")
                 }
