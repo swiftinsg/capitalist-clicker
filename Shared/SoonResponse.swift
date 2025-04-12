@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Vapor
 
-struct SoonResponse: Codable {
+struct SoonResponse: Codable, Content {
     let group: Group
     let amount: Double
     let availablePurchases: [Purchase]

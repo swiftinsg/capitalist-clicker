@@ -9,6 +9,7 @@ import Foundation
 import NIO
 import NIOHTTP1
 import Observation
+import Vapor
 
 @Observable
 class Server: HTTPHandlerDelegate {
@@ -20,33 +21,82 @@ class Server: HTTPHandlerDelegate {
     
     var isRunning = false
     
-    let handler = HTTPHandler()
+//    let handler = HTTPHandler()
     
     init() {
-        handler.delegate = self
+//        handler.delegate = self
     }
     
     func start() {
-        
-        group = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
-        
-        let bootstrap = ServerBootstrap(group: group!)
-            .serverChannelOption(ChannelOptions.backlog, value: 256)
-            .childChannelInitializer { channel in
-                channel.pipeline.configureHTTPServerPipeline().flatMap {
-                    channel.pipeline.addHandler(self.handler)
-                }
+        Task {
+            let app = try await Application.make(.detect())
+            app.on(.GET, "hello") { req in
+                return "Hello, world!"
             }
-            .childChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
-        
-        do {
-            channel = try bootstrap.bind(host: "0.0.0.0", port: 8080).wait()
-            print("yay server started at on port 8080")
+            app.on(.POST) { [self] req in
+                let request = try req.content.decode(SoonEntry.self)
+                
+                guard let groupIndex = groups.firstIndex(where: { $0.group == request.group }) else {
+//                    return SoonError(error: "group not found", bigError: "big").toData()
+                    throw DecodingError.dataCorrupted(.init(codingPath: [], debugDescription: "group not found"))
+                }
+                
+                groups[groupIndex].totalSoon += Double(request.clicks) * groups[groupIndex].soonPerClick
+                
+                let totalCost = request.purchases.map { $0.amount }.reduce(0, +)
+                
+                let hcPurchased = request.purchases.filter {
+                    $0.imageName == "hc"
+                }.count
+                
+                groups[groupIndex].soonPerClick *= pow(2, Double(hcPurchased))
+                
+                let newFlags = request.purchases.flatMap { $0.addedFlags }
+                
+                groups[groupIndex].flags.append(contentsOf: newFlags)
+                
+                groups[groupIndex].totalSoon -= totalCost
+                
+                groups[groupIndex].purchases.append(contentsOf: request.purchases)
+                
+                let availablePurchases = Purchase.all.filter { purchase in
+                    !groups[groupIndex].purchases.contains(purchase) && purchase.amount <= groups[groupIndex].totalSoon
+                }.prefix(5)
+                
+                let response = SoonResponse(group: groups[groupIndex].group,
+                                            amount: groups[groupIndex].totalSoon,
+                                            availablePurchases: Array(availablePurchases),
+                                            soonPerClick: groups[groupIndex].soonPerClick,
+                                            flags: groups[groupIndex].flags)
+                
+                return response
+            }
+            
             writeToFileThread()
             isRunning = true
-        } catch {
-            print("omg ts (this server) pmo: \(error)")
+            
+            try await app.execute()
         }
+        
+//        group = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
+//        
+//        let bootstrap = ServerBootstrap(group: group!)
+//            .serverChannelOption(ChannelOptions.backlog, value: 256)
+//            .childChannelInitializer { channel in
+//                channel.pipeline.configureHTTPServerPipeline().flatMap {
+//                    channel.pipeline.addHandler(self.handler)
+//                }
+//            }
+//            .childChannelOption(ChannelOptions.socketOption(.so_reuseaddr), value: 1)
+//        
+//        do {
+//            channel = try bootstrap.bind(host: "0.0.0.0", port: 8080).wait()
+//            print("yay server started at on port 8080")
+//            writeToFileThread()
+//            isRunning = true
+//        } catch {
+//            print("omg ts (this server) pmo: \(error)")
+//        }
     }
     
     func writeToFileThread() {

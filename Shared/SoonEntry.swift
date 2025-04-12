@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Vapor
 
-struct SoonEntry: Codable {
+struct SoonEntry: Codable, Content {
     let group: Group
     var clicks: Int
     var purchases: [Purchase]

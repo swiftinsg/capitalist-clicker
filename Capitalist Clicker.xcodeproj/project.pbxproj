@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		321467622DA9081A00A8208F /* NIO in Frameworks */ = {isa = PBXBuildFile; productRef = 321467612DA9081A00A8208F /* NIO */; };
 		321467642DA9081A00A8208F /* NIOHTTP1 in Frameworks */ = {isa = PBXBuildFile; productRef = 321467632DA9081A00A8208F /* NIOHTTP1 */; };
+		32BF73512DA9F45C0005386A /* Vapor in Frameworks */ = {isa = PBXBuildFile; productRef = 32BF73502DA9F45C0005386A /* Vapor */; };
+		32BF73542DA9F83D0005386A /* Vapor in Frameworks */ = {isa = PBXBuildFile; productRef = 32BF73532DA9F83D0005386A /* Vapor */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32BF73512DA9F45C0005386A /* Vapor in Frameworks */,
 				321467622DA9081A00A8208F /* NIO in Frameworks */,
 				321467642DA9081A00A8208F /* NIOHTTP1 in Frameworks */,
 			);
@@ -70,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32BF73542DA9F83D0005386A /* Vapor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +86,7 @@
 				321467672DA9089800A8208F /* Shared */,
 				321467532DA907D600A8208F /* Capitalist Clicker */,
 				321467792DA9105D00A8208F /* Capitalist Clicker iOS */,
+				32BF73522DA9F83D0005386A /* Frameworks */,
 				321467522DA907D600A8208F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +98,13 @@
 				321467782DA9105D00A8208F /* Capitalist Clicker iOS.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		32BF73522DA9F83D0005386A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +130,7 @@
 			packageProductDependencies = (
 				321467612DA9081A00A8208F /* NIO */,
 				321467632DA9081A00A8208F /* NIOHTTP1 */,
+				32BF73502DA9F45C0005386A /* Vapor */,
 			);
 			productName = "Capitalist Clicker";
 			productReference = 321467512DA907D600A8208F /* Capitalist Clicker.app */;
@@ -140,6 +153,7 @@
 			);
 			name = "Capitalist Clicker iOS";
 			packageProductDependencies = (
+				32BF73532DA9F83D0005386A /* Vapor */,
 			);
 			productName = "Capitalist Clicker iOS";
 			productReference = 321467782DA9105D00A8208F /* Capitalist Clicker iOS.app */;
@@ -174,6 +188,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */,
+				32BF734F2DA9F45C0005386A /* XCRemoteSwiftPackageReference "vapor" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 321467522DA907D600A8208F /* Products */;
@@ -359,6 +374,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sg.swiftin.Capitalist-Clicker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -386,6 +402,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sg.swiftin.Capitalist-Clicker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,6 +514,14 @@
 				minimumVersion = 2.81.0;
 			};
 		};
+		32BF734F2DA9F45C0005386A /* XCRemoteSwiftPackageReference "vapor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vapor/vapor";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.114.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -509,6 +534,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 321467602DA9081A00A8208F /* XCRemoteSwiftPackageReference "swift-nio" */;
 			productName = NIOHTTP1;
+		};
+		32BF73502DA9F45C0005386A /* Vapor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32BF734F2DA9F45C0005386A /* XCRemoteSwiftPackageReference "vapor" */;
+			productName = Vapor;
+		};
+		32BF73532DA9F83D0005386A /* Vapor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32BF734F2DA9F45C0005386A /* XCRemoteSwiftPackageReference "vapor" */;
+			productName = Vapor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
