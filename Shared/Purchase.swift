@@ -33,11 +33,13 @@ extension Purchase {
         imageName: "hc"
     )
     
-    static let james = Purchase(id: "james",
+    static let james = Purchase(
+        id: "james",
         name: "James",
         description: "James in a maid outfit. Sweeps up $00N",
         amount: 5,
-        imageName: "jame"
+        imageName: "jame",
+        addedFlags: [.james]
     )
     
     static let hotchoco2 = Purchase(
@@ -62,7 +64,8 @@ extension Purchase {
         name: "Bryan",
         description: "Earn $00N for every rotation.",
         amount: 150,
-        imageName: "bryegg"
+        imageName: "bryegg",
+        addedFlags: [.bryan]
     )
 
     static let rabbit = Purchase(
@@ -113,7 +116,8 @@ extension Purchase {
         name: "Jia Chen",
         description: "Earn $00N for every bounce.",
         amount: 1500,
-        imageName: "jc"
+        imageName: "jc",
+        addedFlags: [.jc]
     )
     
     static let tongyu = Purchase(

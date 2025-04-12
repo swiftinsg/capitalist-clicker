@@ -20,6 +20,7 @@
 		321467882DA9106B00A8208F /* Exceptions for "Shared" folder in "Capitalist Clicker iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				BouncingJiaChenView.swift,
 				Group.swift,
 				GroupData.swift,
 				Purchase.swift,
@@ -27,6 +28,8 @@
 				SoonEntry.swift,
 				SoonError.swift,
 				SoonResponse.swift,
+				SpinningBryanView.swift,
+				WalkingMaidJamesView.swift,
 			);
 			target = 321467772DA9105D00A8208F /* Capitalist Clicker iOS */;
 		};

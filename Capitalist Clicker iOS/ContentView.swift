@@ -185,6 +185,25 @@ struct ContentView: View {
                     FishesOverlayView(clicks: $client.clicks)
                 }
                 
+                if client.flags.contains(.james) {
+                    WalkingMaidJamesView {
+                        client.clicks += 100
+                    }
+                    .frame(maxHeight: .infinity, alignment: .bottom)
+                }
+                
+                if client.flags.contains(.bryan) {
+                    SpinningBryanView {
+                        client.clicks += 50
+                    }
+                }
+                
+                if client.flags.contains(.jc) {
+                    BouncingJiaChenView {
+                        client.clicks += 3000
+                    }
+                }
+                
                 if client.showRabbit1 {
                     RabbitView(rabbitNumber: 1, clicks: $client.clicks, showRabbit: $client.showRabbit1)
                         .transition(.move(edge: .leading))

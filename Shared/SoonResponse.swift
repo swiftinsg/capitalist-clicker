@@ -33,4 +33,7 @@ enum Flag: Int, Codable {
     case mining
     case fish
     case fireClicks
+    case james
+    case bryan
+    case jc
 }
